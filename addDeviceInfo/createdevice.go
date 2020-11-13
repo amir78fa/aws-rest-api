@@ -1,40 +1,36 @@
 package main
 
 import (
-	"context"
-	"log"
-	"net/http"
-
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 )
 
 // Define the standard request body schema
 type deviceInfo struct {
-	id          string `json: "id"`
-	deviceModel string `json: "deviceModel"`
-	name        string `json: "name"`
-	note        string `json: "note"`
-	serial      string `json: "serial"`
+	ID          string `json:"id"`
+	DeviceModel string `json:"deviceModel"`
+	Name        string `json:"name"`
+	Note        string `json:"note"`
+	Serial      string `json:"serial"`
 }
+
+var (
+	dynaClient dynamodbiface.DynamoDBAPI
+)
 
 func main() {
 	//Init the AWS request handler
 	lambda.Start(handler)
 }
 
-func handler(ctx context.Context, body events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	log.Print("Request body: ", body)
-	log.Print("context ", ctx)
+func handler(req deviceInfo) (events.APIGatewayProxyResponse, error) {
 
-	// init response status code and body values
-	response := ""
+	// validate input json
+	if req.ID == "" || req.DeviceModel == "" || req.Name == "" || req.Note == "" || req.Serial == "" {
+		return events.APIGatewayProxyResponse{Body: string("Some values are missing"), StatusCode: 400}, nil
+	}
 
 	// Send back the response
-	return apiResponse(http.StatusOK, response)
-}
-
-// Prepare the respone
-func apiResponse(status int, body string) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{Body: string(body), StatusCode: status}, nil
+	return events.APIGatewayProxyResponse{Body: string("Created"), StatusCode: 201}, nil
 }
