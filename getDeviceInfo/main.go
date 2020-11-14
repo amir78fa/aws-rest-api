@@ -62,6 +62,8 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 
 	err = dynamodbattribute.UnmarshalMap(result.Item, &device)
 
+	device.ID = "/devices/" + device.ID
+
 	resp, _ := json.Marshal(device)
 
 	// Send back the response
