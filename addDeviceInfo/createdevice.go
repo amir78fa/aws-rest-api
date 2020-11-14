@@ -1,6 +1,10 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
+	"reflect"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go/aws"
@@ -11,11 +15,11 @@ import (
 
 // Define the standard request body schema
 type deviceInfo struct {
-	ID          string `json:"id"`
-	DeviceModel string `json:"deviceModel"`
-	Name        string `json:"name"`
-	Note        string `json:"note"`
-	Serial      string `json:"serial"`
+	ID          string `json:"id,omitempty"`
+	DeviceModel string `json:"deviceModel,omitempty"`
+	Name        string `json:"name,omitempty"`
+	Note        string `json:"note,omitempty"`
+	Serial      string `json:"serial,omitempty"`
 }
 
 func main() {
@@ -23,7 +27,10 @@ func main() {
 	lambda.Start(handler)
 }
 
-func handler(req deviceInfo) (events.APIGatewayProxyResponse, error) {
+func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+
+	var req deviceInfo
+	err := json.Unmarshal([]byte(event.Body), &req)
 
 	//dyanmodb configs
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
@@ -36,8 +43,22 @@ func handler(req deviceInfo) (events.APIGatewayProxyResponse, error) {
 	av, err := dynamodbattribute.MarshalMap(req)
 
 	// validate input json
-	if req.ID == "" || req.DeviceModel == "" || req.Name == "" || req.Note == "" || req.Serial == "" {
-		return events.APIGatewayProxyResponse{Body: string("Some values are missing"), StatusCode: 400}, nil
+	fields := [5]string{"ID", "DeviceModel", "Name", "Note", "Serial"}
+	missingFlag := false
+	missingStr := ""
+
+	v := reflect.ValueOf(req)
+
+	// check if desired fields are set
+	for _, s := range fields {
+		if v.FieldByName(s).IsZero() {
+			missingFlag = true
+			missingStr += s + ", "
+		}
+	}
+
+	if missingFlag {
+		return events.APIGatewayProxyResponse{Body: string("Some values are missing, " + missingStr), StatusCode: 400}, nil
 	}
 
 	// Create item in table Movies

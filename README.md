@@ -4,42 +4,43 @@ Implementing a simple Restfull API using AWS lambda, AWS API gateway and AWS Dyn
 ## Dependencies
 You need to have Go Lang installed
 
+Install golang aws sdk
 ```bash 
-go get -u github.com/aws/aws-lambda-go/lambda
+go get -u github.com/aws/aws-sdk-go
 ```
 
 
+## Build and make deploy file
 
-package main
+```bash
+GOOS=linux go build -o main [filename].go && zip main.zip main
+```
 
-import (
-    "context"
-    "encoding/json"
-    "github.com/aws/aws-lambda-go/lambda"
-    "github.com/aws/aws-lambda-go/events"
-    "log"
-)
+## Test 
 
-type myReturn struct {
-    Response string `json:"response"`
+At first mock out the aws sdk functions as shown below
+
+```go
+func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+.
+.
+.
 }
+```
 
-func handle(ctx context.Context, name events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-    log.Print("Request body: ", name)
-    log.Print("context ", ctx)
-    headers := map[string]string{"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}
+to
 
-    code := 200
-    response, error := json.Marshal(myReturn{Response:"Hello, " + name.Body})
-    if error != nil {
-        log.Println(error)
-        response = []byte("Internal Server Error")
-        code = 500
-    }
 
-    return events.APIGatewayProxyResponse {code, headers, string(response), false}, nil
+```go
+func handler(req deviceInfo) (events.APIGatewayProxyResponse, error) {
+.
+.
+.
 }
+```
 
-func main() {
-    lambda.Start(handle)
-}
+then run
+
+```bash
+go test
+```
