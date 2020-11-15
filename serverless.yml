@@ -1,0 +1,33 @@
+app: simplerestfullapi
+org: amirmhfallah
+service: simplerestfullapi
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: go1.x
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+functions:
+  createdevice:
+    handler: bin/createdevice
+    events:
+      - http:
+          path: /api/devices
+          method: post
+  getdevice:
+    handler: bin/getdevice
+    events:
+      - http:
+          path: /api/devices/{id}
+          method: get
+          request: 
+            parameters: 
+              paths: 
+                id: true
