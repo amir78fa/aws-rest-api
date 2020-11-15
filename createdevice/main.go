@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"reflect"
 	"strings"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -12,18 +11,23 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+	"github.com/go-playground/validator"
 )
 
 // Define the standard request body schema
 type deviceInfo struct {
-	ID          string `json:"id,omitempty"`
-	DeviceModel string `json:"deviceModel,omitempty"`
-	Name        string `json:"name,omitempty"`
-	Note        string `json:"note,omitempty"`
-	Serial      string `json:"serial,omitempty"`
+	ID          string `json:"id" validate:"required"`
+	DeviceModel string `json:"deviceModel" validate:"required"`
+	Name        string `json:"name" validate:"required"`
+	Note        string `json:"note" validate:"required"`
+	Serial      string `json:"serial" validate:"required"`
 }
 
+var validate *validator.Validate
+
 func main() {
+	validate = validator.New()
+
 	//Init the AWS request handler
 	lambda.Start(handler)
 }
@@ -42,21 +46,12 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 	svc := dynamodb.New(sess)
 
 	// validate input json
-	fields := [5]string{"ID", "DeviceModel", "Name", "Note", "Serial"}
-	missingFlag := false
 	missingStr := ""
-
-	v := reflect.ValueOf(req)
-
-	// check if desired fields are set
-	for _, s := range fields {
-		if v.FieldByName(s).IsZero() {
-			missingFlag = true
-			missingStr += s + ", "
+	err = validate.Struct(req)
+	if err != nil {
+		for _, err := range err.(validator.ValidationErrors) {
+			missingStr += err.Field() + ", "
 		}
-	}
-
-	if missingFlag {
 		return events.APIGatewayProxyResponse{Body: string("Some values are missing, " + missingStr), StatusCode: 400}, nil
 	}
 
