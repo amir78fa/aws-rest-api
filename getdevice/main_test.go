@@ -11,6 +11,7 @@ import (
 	"github.com/gusaul/go-dynamock"
 )
 
+// dynamodb mocking for unit tests
 var mock *dynamock.DynaMock
 
 func initDy() {
@@ -18,6 +19,7 @@ func initDy() {
 	Dyna.Db, mock = dynamock.New()
 }
 
+// test aws request handler function
 func TestHandler(t *testing.T) {
 	initDy()
 	ctx := context.Background()
@@ -27,11 +29,12 @@ func TestHandler(t *testing.T) {
 		"id": "id1",
 	}
 
+	// creating a test request
 	req := events.APIGatewayProxyRequest{
-		Body:           `{"id":"/devices/id1","deviceModel":"aaaa","name":"model1","note":"hello","serial":"4374014"}`,
 		PathParameters: params,
 	}
 
+	// creating a fake database query
 	expectKey := map[string]*dynamodb.AttributeValue{
 		"id": {
 			S: aws.String("id1"),
@@ -46,11 +49,10 @@ func TestHandler(t *testing.T) {
 		},
 	}
 
-	fmt.Println(result)
-
-	//lets start dynamock in action
 	mock.ExpectGetItem().ToTable("devices").WithKeys(expectKey).WillReturns(result)
 
+	// runnig the handler function with a valid id parameter
+	// expecting to return a valid info about the device with the given id with statusCode of 200
 	resp, _ := handler(ctx, req)
 	if resp.StatusCode != 200 {
 		fmt.Println(resp.Body)
@@ -58,16 +60,15 @@ func TestHandler(t *testing.T) {
 	}
 
 	// Second Test Case
+	// creating a request with a non-valid id expecting that the record cannot be found
 	initDy()
 	ctx = context.Background()
 
-	// First Test Case
 	params = map[string]string{
 		"id": "id1",
 	}
 
 	req = events.APIGatewayProxyRequest{
-		Body:           `{"id":"/devices/id1","deviceModel":"aaaa","name":"model1","note":"hello","serial":"4374014"}`,
 		PathParameters: params,
 	}
 
@@ -80,10 +81,6 @@ func TestHandler(t *testing.T) {
 	result = dynamodb.GetItemOutput{
 		Item: nil,
 	}
-
-	fmt.Println(result)
-
-	//lets start dynamock in action
 	mock.ExpectGetItem().ToTable("devices").WithKeys(expectKey).WillReturns(result)
 
 	resp, _ = handler(ctx, req)
