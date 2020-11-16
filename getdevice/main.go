@@ -61,7 +61,7 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 
 	// result.Item will be null if nothing was found with the given id
 	if result.Item == nil {
-		return events.APIGatewayProxyResponse{Body: "Device not found", StatusCode: 404}, nil
+		return events.APIGatewayProxyResponse{Body: "Device not found", StatusCode: 404, Headers: map[string]string{"Content-Type": "application/json"}}, nil
 	}
 
 	device := deviceInfo{}

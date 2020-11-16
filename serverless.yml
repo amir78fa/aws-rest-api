@@ -6,7 +6,9 @@ frameworkVersion: '2'
 
 provider:
   name: aws
+  region: ${opt:region, 'ap-southeast-2'}
   runtime: go1.x
+  role: arn:aws:iam::675174937919:role/aws_full_access_test
 
 package:
   exclude:
