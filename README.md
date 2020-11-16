@@ -10,7 +10,7 @@ go get -u github.com/aws/aws-sdk-go
 ```
 
 ## Testing
-To test each package run ```bash go test ``` in its directory
+To test each package run ```go test``` in its directory
 
 ### Coverage Test Results
 91.7% for createdevice
