@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 	"github.com/go-playground/validator"
 )
 
@@ -25,8 +26,24 @@ type deviceInfo struct {
 
 var validate *validator.Validate
 
-func main() {
+type MyDynamo struct {
+	Db dynamodbiface.DynamoDBAPI
+}
 
+var Dyna *MyDynamo
+
+func ConfigureDynamoDB() {
+	//c csm
+	Dyna = new(MyDynamo)
+	awsSession, _ := session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	})
+	svc := dynamodb.New(awsSession)
+	Dyna.Db = dynamodbiface.DynamoDBAPI(svc)
+}
+
+func main() {
+	ConfigureDynamoDB()
 	//Init the AWS request handler
 	lambda.Start(handler)
 }
@@ -36,14 +53,6 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 
 	var req deviceInfo
 	err := json.Unmarshal([]byte(event.Body), &req)
-
-	//dyanmodb configs
-	sess := session.Must(session.NewSessionWithOptions(session.Options{
-		SharedConfigState: session.SharedConfigEnable,
-	}))
-
-	// Create DynamoDB client
-	svc := dynamodb.New(sess)
 
 	// validate input json
 	missingStr := ""
@@ -69,7 +78,7 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 		TableName: aws.String(tableName),
 	}
 
-	_, err = svc.PutItem(input)
+	_, err = Dyna.Db.PutItem(input)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("Internal Server Error"), StatusCode: 500}, nil
 	}
