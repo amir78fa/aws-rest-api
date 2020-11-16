@@ -26,13 +26,13 @@ type deviceInfo struct {
 var validate *validator.Validate
 
 func main() {
-	validate = validator.New()
 
 	//Init the AWS request handler
 	lambda.Start(handler)
 }
 
 func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	validate = validator.New()
 
 	var req deviceInfo
 	err := json.Unmarshal([]byte(event.Body), &req)

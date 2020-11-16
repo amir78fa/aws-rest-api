@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
+	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbiface"
 )
 
 // Define the standard request body schema
@@ -21,7 +22,24 @@ type deviceInfo struct {
 	Serial      string `json:"serial"`
 }
 
+type MyDynamo struct {
+	Db dynamodbiface.DynamoDBAPI
+}
+
+var Dyna *MyDynamo
+
+func ConfigureDynamoDB() {
+	//c csm
+	Dyna = new(MyDynamo)
+	awsSession, _ := session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	})
+	svc := dynamodb.New(awsSession)
+	Dyna.Db = dynamodbiface.DynamoDBAPI(svc)
+}
+
 func main() {
+	ConfigureDynamoDB()
 	//Init the AWS request handler
 	lambda.Start(handler)
 }
@@ -31,16 +49,8 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 	// parse id parameter from url
 	id := event.PathParameters["id"]
 
-	//dyanmodb configs
-	sess := session.Must(session.NewSessionWithOptions(session.Options{
-		SharedConfigState: session.SharedConfigEnable,
-	}))
-
-	// Create DynamoDB client
-	svc := dynamodb.New(sess)
-
 	// run query on dynamodb with the requested device id
-	result, err := svc.GetItem(&dynamodb.GetItemInput{
+	result, _ := Dyna.Db.GetItem(&dynamodb.GetItemInput{
 		TableName: aws.String("devices"),
 		Key: map[string]*dynamodb.AttributeValue{
 			"id": {
@@ -49,18 +59,13 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 		},
 	})
 
-	if err != nil {
-		return events.APIGatewayProxyResponse{Body: string(err.Error()), StatusCode: 500}, nil
-	}
-
-	// if
 	if result.Item == nil {
 		return events.APIGatewayProxyResponse{Body: "Device not found", StatusCode: 404}, nil
 	}
 
 	device := deviceInfo{}
 
-	err = dynamodbattribute.UnmarshalMap(result.Item, &device)
+	dynamodbattribute.UnmarshalMap(result.Item, &device)
 
 	device.ID = "/devices/" + device.ID
 

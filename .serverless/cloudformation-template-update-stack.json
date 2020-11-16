@@ -59,13 +59,13 @@
     "CreatedeviceLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/simple-restful-api-dev-createdevice"
+        "LogGroupName": "/aws/lambda/simplerestfullapi-dev-createdevice"
       }
     },
     "GetdeviceLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/simple-restful-api-dev-getdevice"
+        "LogGroupName": "/aws/lambda/simplerestfullapi-dev-getdevice"
       }
     },
     "IamRoleLambdaExecution": {
@@ -93,7 +93,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "simple-restful-api",
+                  "simplerestfullapi",
                   "dev",
                   "lambda"
                 ]
@@ -110,7 +110,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/simple-restful-api-dev*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/simplerestfullapi-dev*:*"
                     }
                   ]
                 },
@@ -121,7 +121,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/simple-restful-api-dev*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/simplerestfullapi-dev*:*:*"
                     }
                   ]
                 }
@@ -134,7 +134,7 @@
           "Fn::Join": [
             "-",
             [
-              "simple-restful-api",
+              "simplerestfullapi",
               "dev",
               {
                 "Ref": "AWS::Region"
@@ -204,9 +204,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/simple-restful-api/dev/1605432865530-2020-11-15T09:34:25.530Z/simple-restful-api.zip"
+          "S3Key": "serverless/simplerestfullapi/dev/1605471441013-2020-11-15T20:17:21.013Z/simplerestfullapi.zip"
         },
-        "FunctionName": "simple-restful-api-dev-createdevice",
+        "FunctionName": "simplerestfullapi-dev-createdevice",
         "Handler": "bin/createdevice",
         "MemorySize": 1024,
         "Role": {
@@ -222,14 +222,14 @@
         "CreatedeviceLogGroup"
       ]
     },
-    "CreatedeviceLambdaVersionYKvsjcGBkWfWEOcz4Enk97stKQopvOd2KL9ckJMU": {
+    "CreatedeviceLambdaVersionkKcDJdwSHXfEk0JHB5k0A1JJZbPepGiogTnk9efEWo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreatedeviceLambdaFunction"
         },
-        "CodeSha256": "UcCSSGGltgrPsyxYrnzDiqI2MLKbNO+A0MqCFbaD6yE="
+        "CodeSha256": "axfjDaT6el0Tn7dvpEZyQWZGoLMP/yTKiuW3C0NvOXg="
       }
     },
     "GetdeviceLambdaFunction": {
@@ -239,9 +239,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/simple-restful-api/dev/1605432865530-2020-11-15T09:34:25.530Z/simple-restful-api.zip"
+          "S3Key": "serverless/simplerestfullapi/dev/1605471441013-2020-11-15T20:17:21.013Z/simplerestfullapi.zip"
         },
-        "FunctionName": "simple-restful-api-dev-getdevice",
+        "FunctionName": "simplerestfullapi-dev-getdevice",
         "Handler": "bin/getdevice",
         "MemorySize": 1024,
         "Role": {
@@ -257,20 +257,20 @@
         "GetdeviceLogGroup"
       ]
     },
-    "GetdeviceLambdaVersionelmmc8PJIfS0GZ8EZa2DP1NafJ9GDBJVztoWJct8": {
+    "GetdeviceLambdaVersionwrI3VlH2oHjaLQ0gTvfjaNpYSxgp9kY45QlXiOHF9SA": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetdeviceLambdaFunction"
         },
-        "CodeSha256": "UcCSSGGltgrPsyxYrnzDiqI2MLKbNO+A0MqCFbaD6yE="
+        "CodeSha256": "axfjDaT6el0Tn7dvpEZyQWZGoLMP/yTKiuW3C0NvOXg="
       }
     },
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "Name": "dev-simple-restful-api",
+        "Name": "dev-simplerestfullapi",
         "EndpointConfiguration": {
           "Types": [
             "EDGE"
@@ -406,7 +406,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1605432857431": {
+    "ApiGatewayDeployment1605471432696": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -496,7 +496,7 @@
     "ApiGatewayLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/api-gateway/simple-restful-api-dev"
+        "LogGroupName": "/aws/api-gateway/simplerestfullapi-dev"
       }
     },
     "CustomApiGatewayAccountCloudWatchRole": {
@@ -537,7 +537,7 @@
                 "-",
                 [
                   "dev",
-                  "simple-restful-api",
+                  "simplerestfullapi",
                   "custom-resources-lambda"
                 ]
               ]
@@ -602,9 +602,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/simple-restful-api/dev/1605432865530-2020-11-15T09:34:25.530Z/custom-resources.zip"
+          "S3Key": "serverless/simplerestfullapi/dev/1605471441013-2020-11-15T20:17:21.013Z/custom-resources.zip"
         },
-        "FunctionName": "simple-restful-api-dev-custom-resource-apigw-cw-role",
+        "FunctionName": "simplerestfullapi-dev-custom-resource-apigw-cw-role",
         "Handler": "apiGatewayCloudWatchRole/handler.handler",
         "MemorySize": 1024,
         "Runtime": "nodejs12.x",
@@ -623,7 +623,7 @@
     "CloudWatchLogsSubscriptionFilterCreatedeviceLogGroup": {
       "Type": "AWS::Logs::SubscriptionFilter",
       "Properties": {
-        "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:w8qbwRX9DDL7n9XFyq#Q2vxxnGHcsbyHT7xSj#simple-restful-api#dev",
+        "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:w8qbwRX9DDL7n9XFyq#Cn178HqG9sxwLmjczY#simplerestfullapi#dev",
         "FilterPattern": "?\"REPORT RequestId: \" ?\"SERVERLESS_ENTERPRISE\"",
         "LogGroupName": {
           "Ref": "CreatedeviceLogGroup"
@@ -633,7 +633,7 @@
     "CloudWatchLogsSubscriptionFilterGetdeviceLogGroup": {
       "Type": "AWS::Logs::SubscriptionFilter",
       "Properties": {
-        "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:w8qbwRX9DDL7n9XFyq#Q2vxxnGHcsbyHT7xSj#simple-restful-api#dev",
+        "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:w8qbwRX9DDL7n9XFyq#Cn178HqG9sxwLmjczY#simplerestfullapi#dev",
         "FilterPattern": "?\"REPORT RequestId: \" ?\"SERVERLESS_ENTERPRISE\"",
         "LogGroupName": {
           "Ref": "GetdeviceLogGroup"
@@ -643,7 +643,7 @@
     "CloudWatchLogsSubscriptionFilterApiGatewayLogGroup": {
       "Type": "AWS::Logs::SubscriptionFilter",
       "Properties": {
-        "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:w8qbwRX9DDL7n9XFyq#Q2vxxnGHcsbyHT7xSj#simple-restful-api#dev",
+        "DestinationArn": "arn:aws:logs:us-east-1:802587217904:destination:w8qbwRX9DDL7n9XFyq#Cn178HqG9sxwLmjczY#simplerestfullapi#dev",
         "FilterPattern": "\"SLS_ACCESS_LOG\"",
         "LogGroupName": {
           "Ref": "ApiGatewayLogGroup"
@@ -668,13 +668,13 @@
     "CreatedeviceLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreatedeviceLambdaVersionYKvsjcGBkWfWEOcz4Enk97stKQopvOd2KL9ckJMU"
+        "Ref": "CreatedeviceLambdaVersionkKcDJdwSHXfEk0JHB5k0A1JJZbPepGiogTnk9efEWo"
       }
     },
     "GetdeviceLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetdeviceLambdaVersionelmmc8PJIfS0GZ8EZa2DP1NafJ9GDBJVztoWJct8"
+        "Ref": "GetdeviceLambdaVersionwrI3VlH2oHjaLQ0gTvfjaNpYSxgp9kY45QlXiOHF9SA"
       }
     },
     "ServiceEndpoint": {

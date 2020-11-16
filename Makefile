@@ -5,7 +5,7 @@ build:
 	env GOOS=linux go build -ldflags="-s -w" -o bin/getdevice getdevice/main.go
 
 clean:
-	rm -rf ./bin ./vendor Gopkg.lock
+	rm -rf ./bin ./vendor
 
 deploy: clean build
 	sls deploy --verbose
