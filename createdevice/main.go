@@ -26,6 +26,9 @@ type deviceInfo struct {
 
 var validate *validator.Validate
 
+// creating dynamodb struct
+// in case of unit testing the aws dynamodb functions will be overridden
+
 type MyDynamo struct {
 	Db dynamodbiface.DynamoDBAPI
 }
@@ -49,6 +52,7 @@ func main() {
 }
 
 func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	// struct validator based on deviceInfo tags
 	validate = validator.New()
 
 	var req deviceInfo
@@ -70,7 +74,7 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 
 	av, err := dynamodbattribute.MarshalMap(req)
 
-	// Create item in table Movies
+	// create item in table Movies
 	tableName := "devices"
 
 	input := &dynamodb.PutItemInput{
@@ -78,6 +82,7 @@ func handler(ctx context.Context, event events.APIGatewayProxyRequest) (events.A
 		TableName: aws.String(tableName),
 	}
 
+	// pushing object to the table
 	_, err = Dyna.Db.PutItem(input)
 	if err != nil {
 		return events.APIGatewayProxyResponse{Body: string("Internal Server Error"), StatusCode: 500}, nil

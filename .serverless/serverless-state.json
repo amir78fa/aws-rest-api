@@ -217,7 +217,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/simplerestfullapi/dev/1605471441013-2020-11-15T20:17:21.013Z/simplerestfullapi.zip"
+                "S3Key": "serverless/simplerestfullapi/dev/1605540765964-2020-11-16T15:32:45.964Z/simplerestfullapi.zip"
               },
               "FunctionName": "simplerestfullapi-dev-createdevice",
               "Handler": "bin/createdevice",
@@ -235,14 +235,14 @@
               "CreatedeviceLogGroup"
             ]
           },
-          "CreatedeviceLambdaVersionkKcDJdwSHXfEk0JHB5k0A1JJZbPepGiogTnk9efEWo": {
+          "CreatedeviceLambdaVersionG8eWp8CBMGWXvvSeY3EiHOzetuMsJ8gVGqORQ2STBc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreatedeviceLambdaFunction"
               },
-              "CodeSha256": "axfjDaT6el0Tn7dvpEZyQWZGoLMP/yTKiuW3C0NvOXg="
+              "CodeSha256": "WHUx3Ja5Do+irrmH+Y2FfFrHmL365DO+R6sjlqvJoCk="
             }
           },
           "GetdeviceLambdaFunction": {
@@ -252,7 +252,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/simplerestfullapi/dev/1605471441013-2020-11-15T20:17:21.013Z/simplerestfullapi.zip"
+                "S3Key": "serverless/simplerestfullapi/dev/1605540765964-2020-11-16T15:32:45.964Z/simplerestfullapi.zip"
               },
               "FunctionName": "simplerestfullapi-dev-getdevice",
               "Handler": "bin/getdevice",
@@ -270,14 +270,14 @@
               "GetdeviceLogGroup"
             ]
           },
-          "GetdeviceLambdaVersionwrI3VlH2oHjaLQ0gTvfjaNpYSxgp9kY45QlXiOHF9SA": {
+          "GetdeviceLambdaVersions6EXnFHiSGAfHY2KCE7Zt2WfGc2XzQ69fFgXlfxs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetdeviceLambdaFunction"
               },
-              "CodeSha256": "axfjDaT6el0Tn7dvpEZyQWZGoLMP/yTKiuW3C0NvOXg="
+              "CodeSha256": "WHUx3Ja5Do+irrmH+Y2FfFrHmL365DO+R6sjlqvJoCk="
             }
           },
           "ApiGatewayRestApi": {
@@ -419,7 +419,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1605471432696": {
+          "ApiGatewayDeployment1605540757692": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -615,7 +615,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/simplerestfullapi/dev/1605471441013-2020-11-15T20:17:21.013Z/custom-resources.zip"
+                "S3Key": "serverless/simplerestfullapi/dev/1605540765964-2020-11-16T15:32:45.964Z/custom-resources.zip"
               },
               "FunctionName": "simplerestfullapi-dev-custom-resource-apigw-cw-role",
               "Handler": "apiGatewayCloudWatchRole/handler.handler",
@@ -681,13 +681,13 @@
           "CreatedeviceLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreatedeviceLambdaVersionkKcDJdwSHXfEk0JHB5k0A1JJZbPepGiogTnk9efEWo"
+              "Ref": "CreatedeviceLambdaVersionG8eWp8CBMGWXvvSeY3EiHOzetuMsJ8gVGqORQ2STBc"
             }
           },
           "GetdeviceLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetdeviceLambdaVersionwrI3VlH2oHjaLQ0gTvfjaNpYSxgp9kY45QlXiOHF9SA"
+              "Ref": "GetdeviceLambdaVersions6EXnFHiSGAfHY2KCE7Zt2WfGc2XzQ69fFgXlfxs"
             }
           },
           "ServiceEndpoint": {
@@ -808,7 +808,7 @@
         "timeout": 6,
         "runtime": "go1.x",
         "vpc": {},
-        "versionLogicalId": "CreatedeviceLambdaVersionkKcDJdwSHXfEk0JHB5k0A1JJZbPepGiogTnk9efEWo"
+        "versionLogicalId": "CreatedeviceLambdaVersionG8eWp8CBMGWXvvSeY3EiHOzetuMsJ8gVGqORQ2STBc"
       },
       "getdevice": {
         "handler": "bin/getdevice",
@@ -832,7 +832,7 @@
         "timeout": 6,
         "runtime": "go1.x",
         "vpc": {},
-        "versionLogicalId": "GetdeviceLambdaVersionwrI3VlH2oHjaLQ0gTvfjaNpYSxgp9kY45QlXiOHF9SA"
+        "versionLogicalId": "GetdeviceLambdaVersions6EXnFHiSGAfHY2KCE7Zt2WfGc2XzQ69fFgXlfxs"
       }
     },
     "configValidationMode": "warn",
@@ -860,7 +860,7 @@
           "serverless_sdk/**"
         ],
         "artifact": "/Users/amir/Documents/job/simplerestfullapi/.serverless/simplerestfullapi.zip",
-        "artifactDirectoryName": "serverless/simplerestfullapi/dev/1605471441013-2020-11-15T20:17:21.013Z"
+        "artifactDirectoryName": "serverless/simplerestfullapi/dev/1605540765964-2020-11-16T15:32:45.964Z"
       },
       "functions": {
         "$ref": "$[\"service\"][\"functions\"]"
@@ -873,7 +873,7 @@
     "artifact": "/Users/amir/Documents/job/simplerestfullapi/.serverless/simplerestfullapi.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/simplerestfullapi/dev/1605471441013-2020-11-15T20:17:21.013Z",
+    "artifactDirectoryName": "serverless/simplerestfullapi/dev/1605540765964-2020-11-16T15:32:45.964Z",
     "artifact": "simplerestfullapi.zip"
   }
 }
